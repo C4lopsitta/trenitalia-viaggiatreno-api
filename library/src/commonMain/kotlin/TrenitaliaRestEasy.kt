@@ -1,7 +1,7 @@
 package dev.robaldo.viaggiatreno
 
-import cc.atomtech.timetable.models.trenitalia.CercaTrenoData
-import cc.atomtech.timetable.models.trenitalia.RestEasyTrainData
+import dev.roaldo.viaggiatreno.models.CercaTrenoData
+import dev.roaldo.viaggiatreno.models.RestEasyTrainData
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText

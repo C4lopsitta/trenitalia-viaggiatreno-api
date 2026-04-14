@@ -33,18 +33,21 @@ kotlin {
             }
         }
     }
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
-    linuxX64()
-    linuxArm64()
-    macosX64()
-    macosArm64()
+//    iosX64()
+//    iosArm64()
+//    iosSimulatorArm64()
+//    linuxX64()
+//    linuxArm64()
+//    macosX64()
+//    macosArm64()
 
     sourceSets {
         commonMain.dependencies {
             //put your multiplatform dependencies here
             implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
+            implementation("io.ktor:ktor-client-core:3.4.2")
+            implementation("com.fleeksoft.ksoup:ksoup:0.2.6")
+            implementation("com.fleeksoft.ksoup:ksoup-network:0.2.6")
         }
 
         commonTest.dependencies {
