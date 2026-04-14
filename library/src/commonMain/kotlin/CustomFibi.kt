@@ -1,4 +1,3 @@
-package io.github.kotlin.fibonacci
 
 fun generateFibi() = sequence {
     var a = firstElement
@@ -13,5 +12,5 @@ fun generateFibi() = sequence {
     }
 }
 
-expect val firstElement: Int
-expect val secondElement: Int
+val firstElement: Int = 3
+val secondElement: Int = 5

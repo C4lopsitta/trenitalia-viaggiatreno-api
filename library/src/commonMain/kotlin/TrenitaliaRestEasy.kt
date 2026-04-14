@@ -1,4 +1,4 @@
-package cc.atomtech.timetable.apis
+package dev.robaldo.viaggiatreno
 
 import cc.atomtech.timetable.models.trenitalia.CercaTrenoData
 import cc.atomtech.timetable.models.trenitalia.RestEasyTrainData
