@@ -1,4 +1,4 @@
-package io.github.kotlin.fibonacci
+package dev.robaldo.viaggiatreno
 
 class ViaggiaTreno {
 

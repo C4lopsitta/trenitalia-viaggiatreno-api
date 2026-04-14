@@ -1,4 +1,4 @@
-package cc.atomtech.timetable.models.trenitalia
+package dev.roaldo.viaggiatreno.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 /** Data class for containing deserialized stops from the CercaTreno API
  *
  * @see RestEasyTrainData
- * @see cc.atomtech.timetable.apis.TrenitaliaRestEasy
+ * @see dev.robaldo.viaggiatreno.TrenitaliaRestEasy
  * @since 1.5.0
  */
 @Serializable

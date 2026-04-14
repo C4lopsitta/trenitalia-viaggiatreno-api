@@ -1,12 +1,9 @@
-package cc.atomtech.timetable.scrapers
+package dev.roaldo.viaggiatreno
 
-import cc.atomtech.timetable.models.TrenitaliaInfo
-import cc.atomtech.timetable.models.TrenitaliaInfoLavori
 import com.fleeksoft.ksoup.Ksoup
 import com.fleeksoft.ksoup.network.parseGetRequest
 import com.fleeksoft.ksoup.nodes.Element
-import cc.atomtech.timetable.models.TrenitaliaEventDetails
-import cc.atomtech.timetable.models.trenitalia.CercaTrenoData
+
 
 private object ElementIds {
     const val REGULAR_TRAFFIC = "CIRCOLAZIONE_REGOLARE"

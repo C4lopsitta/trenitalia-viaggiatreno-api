@@ -1,4 +1,4 @@
-package cc.atomtech.timetable.models.trenitalia
+package dev.roaldo.viaggiatreno.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
