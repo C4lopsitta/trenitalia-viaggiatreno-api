@@ -23,7 +23,7 @@ data class Station (
     // pstaz ??
     // mappaCitta{ urlImagePinpoint, urlImageBaloon } ??
     @SerialName("codiceStazione")
-    val stationCode: String,
+    val id: String,
     @SerialName("lat")
     val latitude: Double,
     @SerialName("lon")
