@@ -81,6 +81,18 @@ class ViaggiaTreno(
         return Region.entries[regionId]
     }
 
+    suspend fun stationDetails(station: StationSearchResult, region: Region?): Station {
+        var actualRegion = region
+        if (region == null) {
+            actualRegion = this.regionFromStation(station)
+        }
+
+        val requestUrl = "${baseUrl}/dettaglioStazione/${station.id}/${actualRegion!!.id}"
+        val response = httpClient.get(requestUrl)
+
+        return json.decodeFromString<Station>(response.bodyAsText())
+    }
+
     companion object {
         private const val baseUrl = "http://www.viaggiatreno.it/infomobilita/resteasy/viaggiatreno/"
     }
