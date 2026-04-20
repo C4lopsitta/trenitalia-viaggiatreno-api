@@ -4,7 +4,9 @@ This Kotlin Multiplatform Library has the goal of giving a "sane" interface to t
 It is currently in development, so it is not to be used in production or stable projects, as it is subject to interface 
 changes.
 
-The project is licensed under the [GNU Affero GPL License](COPYING).
+The project is licensed under the [GNU Affero GPL License](COPYING), the [Library Template](https://github.com/Kotlin/multiplatform-library-template)
+is licensed under the Apache-2.0 license. Any code inside the `src/` directory is to be considered under the Affero GPL 
+license unless otherwise stated.
 
 ## Features
 - [x] List stations for each Region
