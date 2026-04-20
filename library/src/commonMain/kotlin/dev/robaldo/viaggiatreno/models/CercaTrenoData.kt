@@ -1,3 +1,6 @@
+// Copyright (C) 2026 c4lopsitta (github username)
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 package dev.robaldo.viaggiatreno.models
 
 import kotlinx.serialization.SerialName
