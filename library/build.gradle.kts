@@ -13,7 +13,12 @@ version = "0.0.1"
 val artifactId = "viaggiatreno"
 
 kotlin {
-    jvm()
+    jvm() {
+        testRuns["test"].executionTask.configure {
+            useJUnitPlatform()
+        }
+    }
+
     androidLibrary {
         namespace = "dev.robaldo.viaggiatreno"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
@@ -52,6 +57,12 @@ kotlin {
 
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
+        }
+
+        jvmTest.dependencies {
+            implementation(kotlin("test-junit5"))
+            implementation("org.junit.jupiter:junit-jupiter:5.10.0")
         }
     }
 }

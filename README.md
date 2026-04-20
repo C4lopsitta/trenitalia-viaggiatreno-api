@@ -6,6 +6,7 @@ changes.
 
 The project is licensed under the [GNU GPLv3 License](COPYING).
 
+Contributions are welcomes through forks and pull requests.
 If you are planning on making a Timetables (or similar) application for Android, consider contributing to [this project of mine](https://github.com/C4lopsitta/rfi-timetable-scraper)
 which uses this library.
 
