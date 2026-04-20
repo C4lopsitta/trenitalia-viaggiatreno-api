@@ -1,0 +1,54 @@
+package dev.robaldo.viaggiatreno
+
+import dev.robaldo.viaggiatreno.enums.Region
+import dev.robaldo.viaggiatreno.models.stations.Station
+import dev.robaldo.viaggiatreno.models.stations.StationSearchResult
+import io.ktor.client.HttpClient
+import io.ktor.client.request.get
+import io.ktor.client.statement.bodyAsText
+import io.ktor.http.HttpStatusCode
+import kotlinx.serialization.json.Json
+
+
+/**
+ *
+ * @property httpClient The KTOR HTTP Client to use for requests.
+ *
+ * @since 0.0.1
+ * @author c4lopsitta
+ */
+class ViaggiaTreno(
+    private val httpClient: HttpClient,
+    private val json: Json = Json { ignoreUnknownKeys = true }
+) {
+
+    suspend fun listStations(region: Region): List<Station>? {
+        val requestUrl = "${baseUrl}/elencoStazioni/${region.id}"
+
+        val response = httpClient.get(requestUrl)
+
+        if ( response.bodyAsText().isEmpty() ) return null;
+
+        if ( response.status != HttpStatusCode.OK ) {
+            throw Exception(response.bodyAsText())
+        }
+
+        return json.decodeFromString<List<Station>>(response.bodyAsText())
+    }
+
+    suspend fun searchStation(stationName: String): List<StationSearchResult> {
+        val requestUrl = "${baseUrl}/cercaStazione/${stationName}"
+
+        val response = httpClient.get(requestUrl)
+
+        if ( response.bodyAsText().isEmpty() ) return emptyList()
+
+        return json.decodeFromString<List<StationSearchResult>>(
+            response.bodyAsText()
+        )
+    }
+
+    companion object {
+        private const val baseUrl = "http://www.viaggiatreno.it/infomobilita/resteasy/viaggiatreno/"
+    }
+}

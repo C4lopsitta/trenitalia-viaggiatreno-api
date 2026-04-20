@@ -1,4 +1,4 @@
-
+package dev.robaldo.viaggiatreno
 fun generateFibi() = sequence {
     var a = firstElement
     yield(a)
