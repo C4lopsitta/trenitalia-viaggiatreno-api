@@ -1,4 +1,3 @@
-import com.fleeksoft.io.internal.assert
 import dev.robaldo.viaggiatreno.ViaggiaTreno
 import dev.robaldo.viaggiatreno.enums.Region
 import io.ktor.client.HttpClient
@@ -15,12 +14,16 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 class TestKt {
+    var vtc: ViaggiaTreno? = null
+
     @OptIn(DelicateCoroutinesApi::class, ExperimentalCoroutinesApi::class)
     @BeforeTest
     fun setup() {
         Dispatchers.setMain(
             newSingleThreadContext("TestKt")
         )
+
+        vtc = ViaggiaTreno(HttpClient())
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -32,13 +35,47 @@ class TestKt {
     @Test
     fun testListRegion(): Unit = runBlocking {
         launch(Dispatchers.Main) {
-            val viaggiaTreno = ViaggiaTreno(HttpClient())
-
-            val res = viaggiaTreno.listStations(Region.PIEMONTE)
+            val res = vtc!!.listStations(Region.PIEMONTE)
 
             res?.forEach { println(it) }
 
-            assert(res != null)
+            assert(!res.isNullOrEmpty())
+        }
+    }
+
+    @Test
+    fun testSearchStation(): Unit = runBlocking {
+        launch(Dispatchers.Main) {
+            val res = vtc!!.searchStation("milano")
+
+            res.forEach { println(it) }
+
+            assert(res.isNotEmpty())
+        }
+    }
+
+    @Test
+    fun testAutocompleteStation(): Unit = runBlocking {
+        launch(Dispatchers.Main) {
+            val res = vtc!!.autocompleteStation("milano")
+
+            res.forEach { println(it) }
+
+            assert(res.isNotEmpty())
+        }
+    }
+
+    @Test
+    fun testStationDetails(): Unit = runBlocking {
+        launch(Dispatchers.Main) {
+            val stationId = "S01700" // Milano Centrale
+
+            println("[INFO] Getting station details for ID $stationId")
+            val stationResult = vtc!!.stationDetails(stationId)
+
+            assert( stationResult != null )
+
+            println(stationResult)
         }
     }
 }
