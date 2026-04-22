@@ -50,8 +50,8 @@ class ViaggiaTreno(
         )
     }
 
-    suspend fun autocompleteStation(stationName: String): List<StationSearchResult>? {
-        val requestUrl = "/autocompletaStazione/${stationName}"
+    suspend fun autocompleteStation(stationName: String): List<StationSearchResult> {
+        val requestUrl = "${baseUrl}/autocompletaStazione/${stationName}"
         val response = httpClient.get(requestUrl)
 
         if ( response.bodyAsText().isEmpty() ) return emptyList()
@@ -60,7 +60,7 @@ class ViaggiaTreno(
 
         // TSV lines => NAME|STATION ID
         response.bodyAsText().lines().forEach { line ->
-            stations.add(StationSearchResult.autoCompleteConstructor(line))
+            StationSearchResult.autoCompleteConstructor(line)?.let { stations.add(it) }
         }
 
         return stations.toList()
@@ -84,14 +84,24 @@ class ViaggiaTreno(
         return Region.entries[regionId]
     }
 
-    suspend fun stationDetails(station: StationSearchResult, region: Region?): Station {
+    suspend fun stationDetails(station: Station): Station? {
+        return this.stationDetails(station.id, station.region)
+    }
+
+    suspend fun stationDetails(station: StationSearchResult): Station? {
+        return this.stationDetails(station.id)
+    }
+
+    suspend fun stationDetails(station: String, region: Region? = null): Station? {
         var actualRegion = region
         if (region == null) {
             actualRegion = this.regionFromStation(station)
         }
 
-        val requestUrl = "${baseUrl}/dettaglioStazione/${station.id}/${actualRegion!!.id}"
+        val requestUrl = "${baseUrl}/dettaglioStazione/${station}/${actualRegion!!.id}"
         val response = httpClient.get(requestUrl)
+
+        if ( response.bodyAsText().isEmpty() ) return null
 
         return json.decodeFromString<Station>(response.bodyAsText())
     }

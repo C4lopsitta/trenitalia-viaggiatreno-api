@@ -18,9 +18,9 @@ data class Station (
     val key: String,
     @SerialName("codReg")
     @Serializable(with = RegionSerializer::class)
-    val region: Region,
+    val region: Region?,
     @SerialName("tipoStazione")
-    val stationType: Int,
+    val stationType: Int?,
     @SerialName("dettZoomStaz")
     val stationZoomDetail: List<StationZoomDetail>?,
     // pstaz ??
@@ -38,11 +38,11 @@ data class Station (
     @SerialName("esterno")
     val external: Boolean?,
     @SerialName("offsetX")
-    val offsetX: Double,
+    val offsetX: Double?,
     @SerialName("offsetY")
-    val offsetY: Double,
+    val offsetY: Double?,
     @SerialName("nomeCitta")
-    val cityName: String,
+    val cityName: String?,
     @SerialName("localita")
-    val city: City
+    val city: City?
 )

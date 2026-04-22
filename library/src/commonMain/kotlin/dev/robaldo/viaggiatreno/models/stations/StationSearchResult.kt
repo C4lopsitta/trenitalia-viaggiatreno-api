@@ -10,11 +10,13 @@ import kotlinx.serialization.Serializable
 data class StationSearchResult(
     @SerialName("nomeLungo") val longName: String? = null,
     @SerialName("nomeBreve") val shortName: String? = null,
-    @SerialName("label") val label: String,
+    @SerialName("label") val label: String? = null,
     @SerialName("id") val id: String
 ) {
     companion object {
-        internal fun autoCompleteConstructor(tsvLine: String): StationSearchResult {
+        internal fun autoCompleteConstructor(tsvLine: String): StationSearchResult? {
+            if (tsvLine.isEmpty()) return null;
+
             val elements = tsvLine.split("|")
             val name = elements[0].trim()
             val id = elements[1].trim()
