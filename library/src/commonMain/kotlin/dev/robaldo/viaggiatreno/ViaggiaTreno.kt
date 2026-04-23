@@ -6,6 +6,7 @@ package dev.robaldo.viaggiatreno
 import dev.robaldo.viaggiatreno.enums.Region
 import dev.robaldo.viaggiatreno.models.stations.Station
 import dev.robaldo.viaggiatreno.models.stations.StationSearchResult
+import dev.robaldo.viaggiatreno.models.trains.AutocompletedTrain
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText
@@ -188,7 +189,43 @@ class ViaggiaTreno(
 
         if ( response.bodyAsText().isEmpty() ) return null
 
+        if ( response.status != HttpStatusCode.OK ) {
+            throw Exception(response.bodyAsText())
+        }
+
         return json.decodeFromString<Station>(response.bodyAsText())
+    }
+
+    suspend fun autocompleteTrainFromNumber(runningTrainNumber: Int): List<AutocompletedTrain> {
+        val requestUrl = "${baseUrl}/cercaNumeroTrenoTrenoAutocomplete/${runningTrainNumber}"
+        val response = httpClient.get(requestUrl)
+
+        if ( response.bodyAsText().isEmpty() ) return emptyList()
+
+        if ( response.status != HttpStatusCode.OK ) {
+            throw Exception(response.bodyAsText())
+        }
+
+        val trains: MutableList<AutocompletedTrain> = mutableListOf()
+        response.bodyAsText().lines().forEach { line ->
+            AutocompletedTrain.autocompleteConstructor(line)?.let { trains.add(it) }
+        }
+
+        return trains.toList()
+    }
+
+    /**
+     *
+     * @param originStationId The [Station] ID of the train's origin.
+     * @param runningTrainNumber The train's number.
+     * @param departureTime A UNIX Epoch Milliseconds timestamp of the departure time.
+     */
+    suspend fun getTrainDetails(
+        originStationId: String,
+        runningTrainNumber: Int,
+        departureTime: Int
+    ) {
+
     }
 
     companion object {
