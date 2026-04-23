@@ -5,7 +5,7 @@ data class AutocompletedTrain(
     val originStationLabel: String,
     val humanDepartureDate: String,
     val originStationId: String,
-    val departureDate: Int
+    val departureDate: ULong
 ) {
     companion object {
         fun autocompleteConstructor(tsvLine: String): AutocompletedTrain? {
@@ -20,7 +20,7 @@ data class AutocompletedTrain(
                 originStationLabel = firstItemParts[1],
                 humanDepartureDate = firstItemParts[2],
                 originStationId = secondItemParts[1],
-                departureDate = secondItemParts[2].toInt()
+                departureDate = secondItemParts[2].toULong()
             )
         }
     }
