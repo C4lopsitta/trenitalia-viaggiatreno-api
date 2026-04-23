@@ -78,5 +78,18 @@ class TestKt {
             println(stationResult)
         }
     }
+
+    @Test
+    fun autocompleteTrain(): Unit = runBlocking {
+        launch(Dispatchers.Main) {
+            assert(vtc!!.autocompleteTrainFromNumber(14).isNotEmpty()); // EC to Zurich
+            assert(vtc!!.autocompleteTrainFromNumber(659).isNotEmpty()); // IC to Ventimiglia
+            assert(vtc!!.autocompleteTrainFromNumber(26358).isNotEmpty()); // Regionale to Susa
+
+            assert(vtc!!.autocompleteTrainFromNumber(3225).isEmpty());
+            assert(vtc!!.autocompleteTrainFromNumber(5912).isEmpty());
+            assert(vtc!!.autocompleteTrainFromNumber(5431).isEmpty());
+        }
+    }
 }
 
