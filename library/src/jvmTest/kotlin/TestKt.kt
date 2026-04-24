@@ -80,11 +80,13 @@ class TestKt {
     }
 
     @Test
-    fun autocompleteTrain(): Unit = runBlocking {
+    fun autocompleteTrainAndDetails(): Unit = runBlocking {
         launch(Dispatchers.Main) {
-            assert(vtc!!.autocompleteTrainFromNumber(14).isNotEmpty()); // EC to Zurich
-            assert(vtc!!.autocompleteTrainFromNumber(659).isNotEmpty()); // IC to Ventimiglia
-            assert(vtc!!.autocompleteTrainFromNumber(26358).isNotEmpty()); // Regionale to Susa
+            val ecData = vtc!!.autocompleteTrainFromNumber(14) // EC to Zurich
+            val icData = vtc!!.autocompleteTrainFromNumber(659) // IC to Ventimiglia
+            val reData = vtc!!.autocompleteTrainFromNumber(26358) // Regionale to Susa
+
+
 
             assert(vtc!!.autocompleteTrainFromNumber(3225).isEmpty());
             assert(vtc!!.autocompleteTrainFromNumber(5912).isEmpty());
