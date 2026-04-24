@@ -3,6 +3,7 @@
 
 package dev.robaldo.viaggiatreno
 
+import dev.robaldo.viaggiatreno.enums.DetailType
 import dev.robaldo.viaggiatreno.enums.Region
 import dev.robaldo.viaggiatreno.models.stations.Station
 import dev.robaldo.viaggiatreno.models.stations.StationSearchResult
@@ -145,6 +146,18 @@ class ViaggiaTreno(
         return Region.entries[regionId]
     }
 
+    suspend fun listStationsForCity(stationId: String): List<StationSearchResult> {
+        val requestUrl = "${baseUrl}/elencoStazioniCitta/${stationId}"
+        val response = httpClient.get(requestUrl)
+
+        if ( response.bodyAsText().isEmpty() ) return emptyList()
+        if ( response.status != HttpStatusCode.OK ) {
+            throw Exception(response.bodyAsText())
+        }
+
+        return json.decodeFromString<List<StationSearchResult>>(response.bodyAsText())
+    }
+
     /** Returns a new [Station] instance for a given [Station] ID, containing all the information available.
      *
      * @param station The [Station] to look up the details of.
@@ -214,18 +227,56 @@ class ViaggiaTreno(
         return trains.toList()
     }
 
+    suspend fun getTrainDetails(train: AutocompletedTrain) {
+        return this.getTrainDetails(
+            originStationId = train.originStationId,
+            runningTrainNumber = train.trainNumber,
+            departureTime = train.departureDate
+        )
+    }
+
     /**
      *
      * @param originStationId The [Station] ID of the train's origin.
      * @param runningTrainNumber The train's number.
      * @param departureTime A UNIX Epoch Milliseconds timestamp of the departure time.
+     *
+     * @throws Exception if the API returns an error.
      */
     suspend fun getTrainDetails(
         originStationId: String,
         runningTrainNumber: Int,
-        departureTime: Int
+        departureTime: ULong
     ) {
 
+    }
+
+    /**
+     * Fetch all departures or arrivals for a given station at a given time.
+     *
+     * @param stationId The [Station] ID of the station to get the trains for.
+     * @param timeString A string formatted as `3-letter-month two-digit-day four-digit-year hour-24:two-digit-minutes:two-digit-seconds GMT+TIMEZONE`
+     *                   Example: `Apr 23 2026 18:50:20 GMT+0200`.
+     * @param detailType The type of Trains to fetch. can be [DetailType.DEPARTURES] or [DetailType.ARRIVALS]
+     *
+     * @throws Exception if the API returns an error.
+     *
+     * @see [DetailType]
+     */
+    suspend fun getStationTrains(
+        stationId: String,
+        timeString: String,
+        detailType: DetailType = DetailType.DEPARTURES
+    ): List<String> {
+        val requestUrl = "${baseUrl}/${detailType.apiUrlPath}/${stationId}/${timeString}"
+        val response = httpClient.get(requestUrl)
+
+        if ( response.bodyAsText().isEmpty() ) return emptyList()
+        if ( response.status != HttpStatusCode.OK ) {
+            throw Exception(response.bodyAsText())
+        }
+
+        return emptyList() // TODO)) Model
     }
 
     companion object {
